@@ -8,7 +8,7 @@ export class Action {
   @Prop()
   type: string;
 
-  @Prop()
+  @Prop({ type: Object })
   payload: Record<string, unknown>;
 
   @Prop()

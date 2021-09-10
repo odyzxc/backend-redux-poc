@@ -1,8 +1,16 @@
-import { Controller, Get, Patch } from '@nestjs/common';
+import { Controller, Get, Patch, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 import { StoreService } from './store/store.service';
 import { selectCount } from 'src/features/counter/counter.selectors';
-import { increment, decrement } from 'src/features/counter/counter.slice';
+import {
+  increment,
+  decrement,
+  incrementBy,
+} from 'src/features/counter/counter.slice';
+
+type IncrementByRequestBody = {
+  amount: number;
+};
 
 @Controller()
 export class AppController {
@@ -30,5 +38,10 @@ export class AppController {
   @Patch('decrement')
   decrement() {
     this.storeService.dispatchAction(decrement());
+  }
+
+  @Patch('incrementBy')
+  incrementBy(@Body() { amount }: IncrementByRequestBody) {
+    this.storeService.dispatchAction(incrementBy(amount || 1));
   }
 }
